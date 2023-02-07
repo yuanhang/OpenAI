@@ -141,7 +141,7 @@ internal extension OpenAI {
 
     func performRequest<ResultType: Codable>(request: Request<ResultType>, completion: @escaping (Result<ResultType, Error>) -> Void) {
         do {
-            let request = try makeRequest(query: request.body, url: request.url)
+            let request = try makeRequest(query: request.body, url: request.url, timeoutInterval: request.timeoutInterval)
             let task = session.dataTask(with: request) { data, _, error in
                 if let error = error {
                     completion(.failure(error))
@@ -165,8 +165,8 @@ internal extension OpenAI {
         }
     }
 
-    func makeRequest(query: Codable, url: URL) throws -> URLRequest {
-        var request = URLRequest(url: url)
+    func makeRequest(query: Codable, url: URL, timeoutInterval: TimeInterval) throws -> URLRequest {
+        var request = URLRequest(url: url, timeoutInterval: timeoutInterval)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(apiToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "POST"
