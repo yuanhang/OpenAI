@@ -71,8 +71,8 @@ public extension OpenAI {
         public let choices: [Choice]
     }
 
-    func completions(query: CompletionsQuery, completion: @escaping (Result<CompletionsResult, Error>) -> Void) {
-        performRequest(request: Request<CompletionsResult>(body: query, url: .completions), completion: completion)
+    func completions(query: CompletionsQuery, timeoutInterval: TimeInterval = 60.0, completion: @escaping (Result<CompletionsResult, Error>) -> Void) {
+        performRequest(request: Request<CompletionsResult>(body: query, url: .completions, timeoutInterval: timeoutInterval), completion: completion)
     }
 }
 
@@ -102,8 +102,8 @@ public extension OpenAI {
         public let data: [URLResult]
     }
 
-    func images(query: ImagesQuery, completion: @escaping (Result<ImagesResult, Error>) -> Void) {
-        performRequest(request: Request<ImagesResult>(body: query, url: .images), completion: completion)
+    func images(query: ImagesQuery, timeoutInterval: TimeInterval = 60.0, completion: @escaping (Result<ImagesResult, Error>) -> Void) {
+        performRequest(request: Request<ImagesResult>(body: query, url: .images, timeoutInterval: timeoutInterval), completion: completion)
     }
 }
 
@@ -132,8 +132,8 @@ public extension OpenAI {
         public let data: [Embedding]
     }
 
-    func embeddings(query: EmbeddingsQuery, completion: @escaping (Result<EmbeddingsResult, Error>) -> Void) {
-        performRequest(request: Request<EmbeddingsResult>(body: query, url: .embeddings), completion: completion)
+    func embeddings(query: EmbeddingsQuery, timeoutInterval: TimeInterval = 60.0, completion: @escaping (Result<EmbeddingsResult, Error>) -> Void) {
+        performRequest(request: Request<EmbeddingsResult>(body: query, url: .embeddings, timeoutInterval: timeoutInterval), completion: completion)
     }
 }
 
