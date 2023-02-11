@@ -44,8 +44,10 @@ public extension OpenAI {
         public let stop: [String]?
         /// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
         public let user: String?
+        /// Whether to stream back partial progress. If set, tokens will be sent as data-only server-sent events as they become available, with the stream terminated by a data: [DONE] message.
+        public let stream: Bool
         
-        public init(model: Model, prompt: String, temperature: Double? = nil, max_tokens: Int? = nil, top_p: Double? = nil, frequency_penalty: Double? = nil, presence_penalty: Double? = nil, stop: [String]? = nil, user: String? = nil) {
+        public init(model: Model, prompt: String, temperature: Double? = nil, max_tokens: Int? = nil, top_p: Double? = nil, frequency_penalty: Double? = nil, presence_penalty: Double? = nil, stop: [String]? = nil, user: String? = nil, stream: Bool = false) {
             self.model = model
             self.prompt = prompt
             self.temperature = temperature
@@ -55,6 +57,7 @@ public extension OpenAI {
             self.presence_penalty = presence_penalty
             self.stop = stop
             self.user = user
+            self.stream = stream
         }
     }
 
@@ -73,6 +76,11 @@ public extension OpenAI {
 
     func completions(query: CompletionsQuery, timeoutInterval: TimeInterval = 60.0, completion: @escaping (Result<CompletionsResult, Error>) -> Void) {
         performRequest(request: Request<CompletionsResult>(body: query, url: .completions, timeoutInterval: timeoutInterval), completion: completion)
+    }
+    
+    @available(iOS 15.0, *)
+    func streamCompletions(query: CompletionsQuery, timeoutInterval: TimeInterval = 60.0) async throws -> AsyncStream<CompletionsResult> {
+        return try await performStreamRequest(request: Request<CompletionsResult>(body: query, url: .completions, timeoutInterval: timeoutInterval))
     }
 }
 
