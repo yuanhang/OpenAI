@@ -78,6 +78,7 @@ public extension OpenAI {
         performRequest(request: Request<CompletionsResult>(body: query, url: .completions, timeoutInterval: timeoutInterval), completion: completion)
     }
     
+    @available(macOS 12.0, *)
     @available(iOS 15.0, *)
     func streamCompletions(query: CompletionsQuery, timeoutInterval: TimeInterval = 60.0) async throws -> AsyncStream<CompletionsResult> {
         return try await performStreamRequest(request: Request<CompletionsResult>(body: query, url: .completions, timeoutInterval: timeoutInterval))

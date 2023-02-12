@@ -11,6 +11,7 @@ public enum OpenAIError: Equatable, Sendable, LocalizedError {
     case invalidServerResponse
 }
 
+@available(macOS 12.0, *)
 @available(iOS 15.0, *)
 extension OpenAI {
     func performStreamRequest<ResultType: Codable>(request: Request<ResultType>) async throws -> AsyncStream<CompletionsResult> {
