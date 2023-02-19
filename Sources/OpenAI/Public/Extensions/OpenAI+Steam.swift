@@ -26,7 +26,7 @@ extension OpenAI {
                 for try await line in asyncBytes.lines {
                     let json = String(line.dropFirst(6))
                     if json == "[DONE]" {
-                        break
+                        continuation.finish()
                     }
                     continuation.yield(try JSONDecoder().decode(CompletionsResult.self, from: Data(json.utf8)))
                 }
